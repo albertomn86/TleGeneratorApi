@@ -1,6 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using TlegeneratorApi;
 
-app.MapGet("/", () => "Hello World!");
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<IAppDbContext, AppDbContext>();
+builder.Services.AddControllers();
+
+var app = builder.Build();
 
 app.Run();
