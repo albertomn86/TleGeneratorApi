@@ -13,9 +13,15 @@ public class AppController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetObjectByCatalogNumber(int catalogNumber)
+    public IActionResult GetObjecstByCatalogNumber(List<int> catalogNumbers)
     {
-       var tleEntry = _dbContext.TleEntries.FirstOrDefault(e => e.CatalogNumber == catalogNumber);
-       return Ok(tleEntry);
+        if (catalogNumbers.Count == 0)
+        {
+            return BadRequest();
+        }
+       
+        var tleEntries = _dbContext.TleEntries.Where(t => catalogNumbers.Contains(t.CatalogNumber)).ToList();
+       
+        return Ok(tleEntries);
     }
 }
