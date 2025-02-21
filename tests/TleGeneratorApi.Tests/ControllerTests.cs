@@ -29,4 +29,40 @@ public class ControllerTests
         var result = controller.GetObjecstByCatalogNumber(catalogNumbers);
         Assert.IsType<BadRequestResult>(result);
     }
+
+    [Fact]
+    public void GetObjecstByGroupName_ShouldReturnListWhenGroupExists()
+    {
+        var context = InMemoryDatabase.GetDbContext();
+        var controller = new AppController(context);
+
+        var result = controller.GetObjecstByGroupName("weather") as OkObjectResult;
+        Assert.NotNull(result);
+
+        var objectsList = Assert.IsType<List<ObjectDto>>(result.Value);
+        Assert.Equal(2, objectsList.Count);
+    }
+
+    [Fact]
+    public void GetObjecstByGroupName_ShouldReturnEmptyListtWhenGroupDoesNotExist()
+    {
+        var context = InMemoryDatabase.GetDbContext();
+        var controller = new AppController(context);
+
+        var result = controller.GetObjecstByGroupName("invalid") as OkObjectResult;
+        Assert.NotNull(result);
+
+        var objectsList = Assert.IsType<List<ObjectDto>>(result.Value);
+        Assert.Empty(objectsList);
+    }
+
+    [Fact]
+    public void GetObjecstByGroupName_ShouldReturnBadRequestWhenGroupIsNull()
+    {
+        var context = InMemoryDatabase.GetDbContext();
+        var controller = new AppController(context);
+
+        var result = controller.GetObjecstByGroupName(null);
+        Assert.IsType<BadRequestResult>(result);
+    }
 }
