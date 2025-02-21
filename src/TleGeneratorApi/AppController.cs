@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TlegeneratorApi;
+namespace TleGeneratorApi;
 
 [ApiController]
 public class AppController : ControllerBase

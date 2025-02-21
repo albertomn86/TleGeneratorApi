@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using TlegeneratorApi;
+using TleGeneratorApi;
 
 namespace TleGeneratorApi.Tests;
 

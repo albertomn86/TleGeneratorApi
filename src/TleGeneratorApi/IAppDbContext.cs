@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace TlegeneratorApi;
+namespace TleGeneratorApi;
 
 public interface IAppDbContext
 {
     DbSet<TleEntry> TleEntries { get; }
+    DbSet<TleGroup> TleGroups { get; }
 }

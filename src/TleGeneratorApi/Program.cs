@@ -1,4 +1,4 @@
-using TlegeneratorApi;
+using TleGeneratorApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
