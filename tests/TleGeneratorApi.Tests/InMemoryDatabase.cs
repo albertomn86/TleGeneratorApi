@@ -15,8 +15,8 @@ public class InMemoryDatabase
         if (!context.TleGroups.Any())
         {
             context.TleGroups.AddRange(
-                new TleGroup { Name = "weather", LastUpdate = DateTime.UtcNow },
-                new TleGroup { Name = "amateur", LastUpdate = DateTime.UtcNow }
+                new TleGroup { Name = "weather", LastUpdated = DateTime.UtcNow },
+                new TleGroup { Name = "amateur", LastUpdated = DateTime.UtcNow }
             );
             context.SaveChanges();
         }

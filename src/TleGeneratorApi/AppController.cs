@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TleGeneratorApi;
@@ -43,14 +44,12 @@ public class AppController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult UpdateCatalogDatabase(List<string> groupsList)
+    public async Task<IActionResult> UpdateCatalogDatabase()
     {
-        if (groupsList.Count == 0) return BadRequest();
-
-        if (_tleUpdater.UpdateDatabase(groupsList)) {
+        if (await _tleUpdater.UpdateDatabase()) {
             return Ok();
         }
-        
+       
         return UnprocessableEntity();
     }
 }

@@ -1,4 +1,7 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
+using TleGeneratorApi.CatalogProviders;
 
 namespace TleGeneratorApi.Tests;
 
@@ -7,7 +10,8 @@ public class ControllerTests
     private static AppController InitializeController()
     {
         var context = InMemoryDatabase.GetDbContext();
-        var tleUpdater = new TleUpdater(context);
+        var httpClient = new Mock<IHttpClient>();
+        var tleUpdater = new TleUpdater(context, httpClient.Object);
 
         return new AppController(context, tleUpdater);
     }
@@ -76,24 +80,16 @@ public class ControllerTests
     }
 
     [Fact]
-    public void UpdateCatalog_ShouldReturnOkWhenCatalogWasUpdated()
+    public async Task UpdateCatalog_ShouldReturnOkWhenCatalogWasUpdated()
     {
-        var controller = InitializeController();
-        var groupsList = new List<string>{ "weather" };
+        var context = InMemoryDatabase.GetDbContext();
+        var httpClient = new Mock<IHttpClient>();
+        var tleUpdater = new Mock<ITleUpdater>();
+        var controller = new AppController(context, tleUpdater.Object);
+        tleUpdater.Setup(x => x.UpdateDatabase()).ReturnsAsync(true);
 
-        var result = controller.UpdateCatalogDatabase(groupsList);
+        var result = await controller.UpdateCatalogDatabase();
 
         Assert.IsType<OkResult>(result);
-    }
-
-    [Fact]
-    public void UpdateCatalog_ShouldReturnBadRequestWhenGroupsListIsEmpty()
-    {
-        var controller = InitializeController();
-        var groupsList = new List<string>();
-
-        var result = controller.UpdateCatalogDatabase(groupsList);
-
-        Assert.IsType<BadRequestResult>(result);
     }
 }
